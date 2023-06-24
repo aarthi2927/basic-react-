@@ -1,0 +1,79 @@
+//npm i uuidv4
+//App.js
+import React,{useState,useEffect} from 'react';
+import { v4 as uuid } from "uuid";
+import './App.css';
+import { Dataitem } from './Dataitem';
+import { AddData } from './AddData';
+export const data=[{
+  name:'xxxx',
+  },
+  {
+  name:'yyyy',
+  },
+    {
+   name:'zzzz',
+      }
+];
+
+function App() {
+  const Localstorage_key="12345";
+  const[datalist,setDatalist]= useState(
+    JSON.parse(localStorage.getItem(Localstorage_key)) ?? []
+  );
+
+     useEffect(()=>{
+  const retrivedata=JSON.parse(localStorage.getItem(Localstorage_key))
+if(retrivedata)setDatalist(retrivedata); 
+},[]);
+  useEffect(()=>{
+    localStorage.setItem(Localstorage_key,JSON.stringify(datalist));
+  },[datalist]);
+
+  
+  return (
+    <div>
+      <header>
+        <h1>Todo list</h1>
+      </header>
+      <AddData datalist={datalist} setDatalist={setDatalist}/>
+      <Dataitem datalist={datalist} setDatalist={setDatalist}/>
+   
+          </div>
+  );
+}
+export default App;
+
+//Dataitemlist.js
+import React from 'react';
+export function Dataitemlist({name,id,clickHander}) {
+         return (
+        <div>
+            <div>{name}<button onClick= {clickHander} >del</button></div>
+        </div>
+
+    );
+};
+
+//dataitem.js
+import React from 'react';
+import { Dataitemlist } from './Dataitemlist';
+export function Dataitem({datalist,setDatalist}){
+  const removedataHandler = (index) => {
+    const newdataList = [...datalist];
+    newdataList.splice(index,1)
+        setDatalist(newdataList );
+  };
+const datalistmap=datalist.map((d1,index)=>{
+
+    return(
+        <Dataitemlist name={d1.name} id={index} key={d1.id} clickHander={removedataHandler}  />
+    )
+  }) 
+    return(
+        <div>{datalistmap}</div>
+
+)
+}
+
+
