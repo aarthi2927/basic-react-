@@ -1,0 +1,57 @@
+//data from array display a  line by line
+
+import React,{useState} from 'react';
+import './App.css';
+import { Dataitem, Tablelist } from './Dataitem';
+export const data=[{
+ id:1,
+  name:'xxxx',
+  },
+  {
+    id:2,
+    name:'yyyy',
+    },
+    {
+      id:3,
+      name:'zzzz',
+      },
+];
+
+function App() {
+  const[datalist,setDatalist]=useState(data);
+  return (
+    <div>
+      <header>
+        <h1>Todo list</h1>
+      </header>
+      <Dataitem datalist={datalist}/>
+   
+          </div>
+  );
+}
+
+export default App;
+//Dataitem.js
+import React from 'react';
+
+export function Dataitem({datalist}){
+    const datamap=datalist.map((d1,index)=>{
+        return(
+<DataitemDisplay d1={d1} id={index} index={d1.id}/>
+        )
+    })
+    return(
+        <div>
+            {datamap}
+        </div>
+    )
+}
+
+export const DataitemDisplay=(props)=>{
+   const{id,name}=props.d1;
+    return(
+        <div>
+            <h1>{name}</h1>
+        </div>
+    )
+}
