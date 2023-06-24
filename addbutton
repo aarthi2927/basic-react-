@@ -1,0 +1,88 @@
+//App
+import React,{useState} from 'react';
+import './App.css';
+import { Dataitem } from './Dataitem';
+import { AddData } from './AddData';
+export const data=[{
+ id:1,
+  name:'xxxx',
+  },
+  {
+    id:2,
+    name:'yyyy',
+    },
+    {
+      id:3,
+      name:'zzzz',
+      }
+];
+
+function App() {
+  const[datalist,setDatalist]=useState(data);
+  return (
+    <div>
+      <header>
+        <h1>Todo list</h1>
+      </header>
+      <AddData datalist={datalist} setDatalist={setDatalist}/>
+      <Dataitem datalist={datalist}/>
+   
+          </div>
+  );
+}
+export default App;
+
+//Dataitem
+import React from 'react';
+import { Dataitemlist } from './Dataitemlist';
+
+export function Dataitem({datalist}){
+const datalistmap=datalist.map((d1,index)=>{
+    return(
+        <Dataitemlist d1={d1} id={index} index={d1.id}/>
+    )
+  }) 
+    return(
+        <div>{datalistmap}</div>
+
+)
+}
+//Dataitemlist
+import React from 'react';
+
+
+export const Dataitemlist = (props) => {
+    const { id, name } = props.d1;
+    return (
+        <div>
+            <div>{name}<button>del</button></div>
+        </div>
+
+    );
+};
+
+
+//add page (data add but refresh a page data will delete) temperay storage
+import React,{useState} from 'react';
+
+export function AddData({datalist,setDatalist}) {
+const [name,setName]=useState("");
+
+  return (
+   <div>
+    <form>
+    <input type="text" name="data" 
+    placeholder='Enter your task information' 
+    onChange={(e)=>setName(event.target.value)}/>
+    <button onClick={()=>{
+      const newdata={
+        name:name,
+      };
+      setDatalist([...datalist,newdata]);
+    }}>add</button>
+    </form>
+    
+   </div>
+  );
+}
+
